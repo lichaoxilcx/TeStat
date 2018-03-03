@@ -8,6 +8,24 @@ class TeStat_Action extends Typecho_Widget implements Widget_Interface_Do
 
 	public function action()
 	{
+		if(isset($this->request->type) && $this->request->type == 'islike') {
+			$likes = Typecho_Cookie::get('__post_likes');
+			if(empty($likes)){
+				$likes = array();
+			}else{
+				$likes = explode(',', $likes);
+			}
+			$cid = $this->request->cid;
+			if(!$cid)
+				$this->response->throwJson(array('status'=>0,'msg'=>'请选择喜欢的文章!'));
+
+			if(!in_array($cid,$likes)){
+				$this->response->throwJson(array('status' => 0));
+			} else {
+				$this->response->throwJson(array('status' => 1));
+			}
+		}
+		
 		$this->db = Typecho_Db::get();
 		$this->prefix = $this->db->getPrefix();
 		$this->options = Typecho_Widget::widget('Widget_Options');
