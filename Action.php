@@ -25,11 +25,11 @@ class TeStat_Action extends Typecho_Widget implements Widget_Interface_Do
 				$this->response->throwJson(array('status' => 1));
 			}
 		}
-		
+
 		$this->db = Typecho_Db::get();
 		$this->prefix = $this->db->getPrefix();
 		$this->options = Typecho_Widget::widget('Widget_Options');
-		
+
 		$cid = $this->request->cid;
 		if(!$cid)
 			$this->response->throwJson(array('status'=>0,'msg'=>'请选择喜欢的文章!'));
@@ -39,7 +39,7 @@ class TeStat_Action extends Typecho_Widget implements Widget_Interface_Do
 		}else{
 			$likes = explode(',', $likes);
 		}
-		
+
 		if(!in_array($cid,$likes)){
 			$row = $this->db->fetchRow($this->db->select('likesNum')->from('table.contents')->where('cid = ?', $cid)->limit(1));
 			$this->db->query($this->db->update('table.contents')->rows(array('likesNum' => (int)$row['likesNum']+1))->where('cid = ?', $cid));
