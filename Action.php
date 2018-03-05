@@ -27,7 +27,7 @@ class TeStat_Action extends Typecho_Widget implements Widget_Interface_Do
 			$this->db->query($this->db->update('table.contents')->rows(array('likesNum' => (int)$row['likesNum']+1))->where('cid = ?', $cid));
 			array_push($likes, $cid);
 			$likes = implode(',', $likes);
-			Typecho_Cookie::set('__post_likes', $likes, time() + 60 * 60 * 24); //记录查看cookie
+			Typecho_Cookie::set('__post_likes', $likes, time() + 60 * 60 * 24 * 366); //记录查看cookie
 			$this->response->throwJson(array('status'=>1,'msg'=>'成功点赞!'));
 		}
 		$this->response->throwJson(array('status'=>0,'msg'=>'你已经点赞过了!'));
